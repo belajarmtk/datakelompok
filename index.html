@@ -1,93 +1,767 @@
 <!DOCTYPE html>
-<html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Mean, Median, dan Modus Data Kelompok</title>
-<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]}};</script>
-<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-chtml.js"></script>
-<style>:root{--bg:#fff;--fg:#1f2430;--mut:#5b6475;--ac:#1a5fb4;--soft:#eef3fb;--bd:#cfd8e6;--hl:#fff3c4;--ok:#e7f5ea}
-@media(prefers-color-scheme:dark){:root{--bg:#141821;--fg:#e6e9f0;--mut:#9aa3b5;--ac:#7db3ff;--soft:#1d2433;--bd:#33405a;--hl:#4a4020;--ok:#1c3324}}
-*{box-sizing:border-box}html{scroll-behavior:smooth}
-body{margin:0;background:var(--bg);color:var(--fg);font:17px/1.7 Georgia,'Times New Roman',serif}
-header{background:var(--soft);border-bottom:1px solid var(--bd);padding:2rem 1rem 1.2rem;text-align:center}
-header h1{margin:0 0 .3rem;font-size:1.8rem;line-height:1.3}header p{margin:0;color:var(--mut)}
-nav{position:sticky;top:0;background:var(--bg);border-bottom:1px solid var(--bd);display:flex;flex-wrap:wrap;gap:.3rem 1rem;justify-content:center;padding:.5rem;z-index:5;font:600 .9rem system-ui,sans-serif}
-nav a{color:var(--ac);text-decoration:none}
-main{max-width:860px;margin:0 auto;padding:1rem 1rem 3rem}
-h2{border-left:5px solid var(--ac);padding-left:.6rem;margin-top:2.6rem;line-height:1.3}h3{margin:1.4rem 0 .4rem}h4{margin:.8rem 0 .2rem}
-.box{background:var(--soft);border:1px solid var(--bd);border-radius:8px;padding:.6rem 1rem;margin:1rem 0}
-.formula{background:var(--soft);border:1px solid var(--ac);border-radius:8px;padding:.4rem .8rem;margin:1rem 0;text-align:center;overflow-x:auto}
-.tw{overflow-x:auto;margin:.8rem 0}table{border-collapse:collapse;margin:0 auto;font-family:system-ui,sans-serif;font-size:.95rem;min-width:260px}
-caption{caption-side:top;font-weight:600;padding:.3rem}th,td{border:1px solid var(--bd);padding:.35rem .8rem;text-align:center}th{background:var(--soft)}
-tr.hl td{background:var(--hl)}tr.tot td{font-weight:600;background:var(--soft)}
-dl{margin:.5rem 0}dt{font-weight:700;margin-top:.5rem}dd{margin:0 0 0 1rem}
-ol li,ul li{margin:.25rem 0}
-.ex{border:1px solid var(--bd);border-radius:10px;padding:.2rem 1rem 1rem;margin:1.2rem 0}small{color:var(--mut);font-weight:400}
-details{margin-top:.6rem}summary{cursor:pointer;font:600 .95rem system-ui,sans-serif;color:var(--ac)}details[open]{background:var(--ok);border-radius:8px;padding:.3rem .8rem}
-.key{margin:.5rem 0}footer{text-align:center;color:var(--mut);font:.85rem system-ui,sans-serif;padding:1.5rem 1rem;border-top:1px solid var(--bd)}
-mjx-container[display=true]{overflow-x:auto;overflow-y:hidden}
-@media print{nav{display:none}details{display:block}}</style></head><body>
-<header><h1>Mean, Median, dan Modus<br>Data Kelompok</h1><p>Materi Statistika · konsep dasar, contoh, penyelesaian, dan latihan</p></header>
-<nav><a href="#konsep">Konsep Dasar</a><a href="#mean">Mean</a><a href="#median">Median</a><a href="#modus">Modus</a><a href="#ringkasan">Ringkasan</a><a href="#latihan">Latihan</a></nav>
-<main>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modul Interaktif Statistika Data Kelompok - Matematika SMA</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Konfigurasi MathJax untuk Notasi Matematika Baku -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            },
+            svg: {
+                fontCache: 'global'
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
-<h2 id="konsep">1. Konsep Dasar</h2>
-<p><b>Data kelompok</b> adalah data yang disajikan dalam bentuk kelas-kelas (interval) beserta frekuensi tiap kelas. Penyajian ini dipakai bila datanya banyak. Ukuran pemusatan yang dibahas: <b>mean</b> (rata-rata), <b>median</b> (nilai tengah), dan <b>modus</b> (nilai yang paling sering muncul).</p>
-<div class="box"><b>Contoh data (dipakai di seluruh materi).</b> Nilai tes Matematika 40 siswa:</div>
-<div class="tw"><table><caption>Tabel 1. Nilai tes Matematika</caption><thead><tr><th>Kelas</th><th>\(f_i\)</th></tr></thead><tbody><tr><td>41–50</td><td>2</td></tr><tr><td>51–60</td><td>9</td></tr><tr><td>61–70</td><td>12</td></tr><tr><td>71–80</td><td>9</td></tr><tr><td>81–90</td><td>8</td></tr><tr class=tot><td>Jumlah</td><td>\(n=40\)</td></tr></tbody></table></div>
-<h3>Istilah penting</h3>
-<dl>
-<dt>Batas kelas</dt><dd>Batas bawah dan batas atas tiap kelas. Kelas pertama: batas bawah 41, batas atas 50.</dd>
-<dt>Tepi bawah \(T_b\) dan tepi atas \(T_a\)</dt><dd>\(T_b=\text{batas bawah}-0{,}5\) dan \(T_a=\text{batas atas}+0{,}5\) (untuk data bulat). Kelas 41–50: \(T_b=40{,}5\) dan \(T_a=50{,}5\).</dd>
-<dt>Panjang kelas \(p\)</dt><dd>\(p=T_a-T_b\). Pada contoh, \(p=50{,}5-40{,}5=10\).</dd>
-<dt>Titik tengah \(x_i\)</dt><dd>\(x_i=\dfrac{\text{batas bawah}+\text{batas atas}}{2}\). Kelas 41–50: \(x_1=\dfrac{41+50}{2}=45{,}5\).</dd>
-<dt>Frekuensi \(f_i\) dan banyak data \(n\)</dt><dd>\(n=\sum f_i\). Pada contoh, \(n=2+9+12+9+8=40\).</dd>
-<dt>Frekuensi kumulatif \(F\)</dt><dd>Jumlah frekuensi dari kelas pertama sampai kelas yang bersangkutan.</dd>
-</dl>
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+        }
 
-<h2 id="mean">2. Mean (Rata-rata)</h2>
-<div class="formula">\[\bar{x}=\dfrac{\sum_{i=1}^{k} f_i\,x_i}{\sum_{i=1}^{k} f_i}=\dfrac{f_1x_1+f_2x_2+\cdots+f_kx_k}{f_1+f_2+\cdots+f_k}\]</div>
-<h3>Langkah</h3>
-<ol><li>Tentukan titik tengah \(x_i\) setiap kelas.</li><li>Hitung \(f_i\,x_i\) untuk setiap kelas.</li><li>Jumlahkan semua \(f_i\,x_i\) dan semua \(f_i\).</li><li>Bagi \(\sum f_ix_i\) dengan \(\sum f_i\).</li></ol>
-<h3>Contoh dan penyelesaian</h3>
-<p>Tentukan mean nilai tes pada tabel di atas.</p>
-<div class="tw"><table><thead><tr><th>Kelas</th><th>\(f_i\)</th><th>\(x_i\)</th><th>\(f_i\,x_i\)</th></tr></thead><tbody><tr><td>41–50</td><td>2</td><td>\(45{,}5\)</td><td>\(91\)</td></tr><tr><td>51–60</td><td>9</td><td>\(55{,}5\)</td><td>\(499{,}5\)</td></tr><tr><td>61–70</td><td>12</td><td>\(65{,}5\)</td><td>\(786\)</td></tr><tr><td>71–80</td><td>9</td><td>\(75{,}5\)</td><td>\(679{,}5\)</td></tr><tr><td>81–90</td><td>8</td><td>\(85{,}5\)</td><td>\(684\)</td></tr><tr class=tot><td>Jumlah</td><td>\(\sum f_i = 40\)</td><td></td><td>\(\sum f_ix_i = 2.740\)</td></tr></tbody></table></div>
-<p>Titik tengah: \(45{,}5\), \(55{,}5\), \(65{,}5\), \(75{,}5\), \(85{,}5\).</p><p>\(\sum f_ix_i = 2\times 45{,}5 + 9\times 55{,}5 + 12\times 65{,}5 + 9\times 75{,}5 + 8\times 85{,}5 = 2.740\)</p><p>\(\bar{x} = \dfrac{2.740}{40} = 68{,}5\)</p>
-<div class="box"><b>Jadi, mean nilai tes adalah \(68{,}5\).</b></div>
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.25s ease-in-out;
+        }
+        .tab-content.active {
+            display: block;
+        }
 
-<h2 id="median">3. Median (Nilai Tengah)</h2>
-<div class="formula">\[Me=T_b+\left(\dfrac{\frac{1}{2}n-F_k}{f_{me}}\right)p\]</div>
-<dl><dt>\(T_b\)</dt><dd>tepi bawah kelas median</dd><dt>\(n\)</dt><dd>banyak seluruh data</dd><dt>\(F_k\)</dt><dd>frekuensi kumulatif <i>sebelum</i> kelas median</dd><dt>\(f_{me}\)</dt><dd>frekuensi kelas median</dd><dt>\(p\)</dt><dd>panjang kelas</dd></dl>
-<h3>Langkah</h3>
-<ol><li>Hitung \(\tfrac{1}{2}n\) (letak data tengah).</li><li>Susun frekuensi kumulatif \(F\). <b>Kelas median</b> adalah kelas pertama yang \(F\)-nya \(\ge \tfrac{1}{2}n\).</li><li>Tentukan \(T_b\), \(F_k\), \(f_{me}\), dan \(p\), lalu masukkan ke rumus.</li></ol>
-<h3>Contoh dan penyelesaian</h3>
-<p>Tentukan median nilai tes pada tabel di atas.</p>
-<div class="tw"><table><thead><tr><th>Kelas</th><th>\(f_i\)</th><th>\(F\)</th><th></th></tr></thead><tbody><tr><td>41–50</td><td>2</td><td>2</td><td></td></tr><tr><td>51–60</td><td>9</td><td>11</td><td></td></tr><tr class=hl><td>61–70</td><td>12</td><td>23</td><td>◀ kelas median</td></tr><tr><td>71–80</td><td>9</td><td>32</td><td></td></tr><tr><td>81–90</td><td>8</td><td>40</td><td></td></tr></tbody></table></div>
-<p>\(\tfrac{n}{2} = 20\); frekuensi kumulatif: 2, 11, 23, 32, 40. Kelas median: <b>61–70</b>.</p><p>\(T_b=60{,}5,\; F_k=11,\; f_{me}=12,\; p=10\)</p><p>\(Me = 60{,}5 + \left(\dfrac{20 - 11}{12}\right)\times 10 = 60{,}5 + 7{,}5 = 68\)</p>
-<div class="box"><b>Jadi, median nilai tes adalah \(68\).</b></div>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-<h2 id="modus">4. Modus</h2>
-<div class="formula">\[Mo=T_b+\left(\dfrac{d_1}{d_1+d_2}\right)p\]</div>
-<dl><dt>\(T_b\)</dt><dd>tepi bawah kelas modus (kelas dengan frekuensi terbesar)</dd><dt>\(d_1\)</dt><dd>selisih frekuensi kelas modus dengan frekuensi kelas <i>sebelumnya</i></dd><dt>\(d_2\)</dt><dd>selisih frekuensi kelas modus dengan frekuensi kelas <i>sesudahnya</i></dd><dt>\(p\)</dt><dd>panjang kelas</dd></dl>
-<p>Jika kelas modus adalah kelas pertama atau terakhir, frekuensi kelas yang tidak ada dianggap \(0\).</p>
-<h3>Contoh dan penyelesaian</h3>
-<p>Tentukan modus nilai tes pada tabel di atas.</p>
-<div class="tw"><table><thead><tr><th>Kelas</th><th>\(f_i\)</th><th></th></tr></thead><tbody><tr><td>41–50</td><td>2</td><td></td></tr><tr><td>51–60</td><td>9</td><td></td></tr><tr class=hl><td>61–70</td><td>12</td><td>◀ kelas modus</td></tr><tr><td>71–80</td><td>9</td><td></td></tr><tr><td>81–90</td><td>8</td><td></td></tr></tbody></table></div>
-<p>Kelas modus: <b>61–70</b> (frekuensi terbesar = 12).</p><p>\(T_b=60{,}5,\; d_1=12-9=3,\; d_2=12-9=3,\; p=10\)</p><p>\(Mo = 60{,}5 + \left(\dfrac{3}{3+3}\right)\times 10 = 60{,}5 + 5 = 65{,}5\)</p>
-<div class="box"><b>Jadi, modus nilai tes adalah \(65{,}5\).</b></div>
+        /* =========================================================
+           STYLING KHUSUS CETAK PDF (12pt Times New Roman, Hitam)
+           ========================================================= */
+        @media print {
+            body {
+                font-family: 'Times New Roman', Times, serif !important;
+                font-size: 12pt !important;
+                color: #000000 !important;
+                background-color: #ffffff !important;
+                line-height: 1.45;
+            }
 
-<h2 id="ringkasan">5. Ringkasan</h2>
-<div class="tw"><table><thead><tr><th>Ukuran</th><th>Rumus</th><th>Hasil contoh</th></tr></thead><tbody>
-<tr><td>Mean</td><td>\(\bar{x}=\dfrac{\sum f_ix_i}{\sum f_i}\)</td><td>\(68{,}5\)</td></tr>
-<tr><td>Median</td><td>\(Me=T_b+\left(\dfrac{\frac{1}{2}n-F_k}{f_{me}}\right)p\)</td><td>\(68\)</td></tr>
-<tr><td>Modus</td><td>\(Mo=T_b+\left(\dfrac{d_1}{d_1+d_2}\right)p\)</td><td>\(65{,}5\)</td></tr></tbody></table></div>
-<div class="box"><b>Kesalahan yang sering terjadi</b><ul>
-<li>Memakai batas bawah kelas, bukan tepi bawah \(T_b\).</li>
-<li>Menganggap \(F_k\) sebagai frekuensi kumulatif <i>sampai</i> kelas median. Yang benar, \(F_k\) adalah kumulatif <i>sebelum</i> kelas median.</li>
-<li>Menukar \(d_1\) (dengan kelas sebelumnya) dan \(d_2\) (dengan kelas sesudahnya).</li>
-<li>Lupa mengalikan dengan panjang kelas \(p\) pada rumus median dan modus.</li></ul></div>
+            .no-print {
+                display: none !important;
+            }
 
-<h2 id="latihan">6. Latihan</h2>
-<p>Kerjakan sendiri terlebih dahulu, lalu klik <i>Lihat jawaban</i> untuk mencocokkan.</p>
-<article class="ex"><h3>Latihan 1 <small>(Mean)</small></h3><p>Berat badan 30 siswa disajikan pada tabel berikut. Tentukan rata-rata (mean) berat badan siswa tersebut.</p><div class="tw"><table><caption>Berat badan (kg)</caption><thead><tr><th>Kelas</th><th>\(f_i\)</th></tr></thead><tbody><tr><td>41–45</td><td>2</td></tr><tr><td>46–50</td><td>6</td></tr><tr><td>51–55</td><td>11</td></tr><tr><td>56–60</td><td>6</td></tr><tr><td>61–65</td><td>5</td></tr><tr class=tot><td>Jumlah</td><td>\(n=30\)</td></tr></tbody></table></div><details><summary>Lihat jawaban dan pembahasan</summary><p class="key"><b>Jawaban:</b> \(\bar{x} = 54\)</p><p>Titik tengah: \(43\), \(48\), \(53\), \(58\), \(63\).</p><p>\(\sum f_ix_i = 2\times 43 + 6\times 48 + 11\times 53 + 6\times 58 + 5\times 63 = 1.620\)</p><p>\(\bar{x} = \dfrac{1.620}{30} = 54\)</p></details></article><article class="ex"><h3>Latihan 2 <small>(Median)</small></h3><p>Nilai ujian 50 siswa disajikan pada tabel berikut. Tentukan median data tersebut.</p><div class="tw"><table><caption>Nilai ujian</caption><thead><tr><th>Kelas</th><th>\(f_i\)</th></tr></thead><tbody><tr><td>31–40</td><td>8</td></tr><tr><td>41–50</td><td>8</td></tr><tr><td>51–60</td><td>15</td></tr><tr><td>61–70</td><td>8</td></tr><tr><td>71–80</td><td>11</td></tr><tr class=tot><td>Jumlah</td><td>\(n=50\)</td></tr></tbody></table></div><details><summary>Lihat jawaban dan pembahasan</summary><p class="key"><b>Jawaban:</b> \(Me = 56{,}5\)</p><p>\(\tfrac{n}{2} = 25\); frekuensi kumulatif: 8, 16, 31, 39, 50. Kelas median: <b>51–60</b>.</p><p>\(T_b=50{,}5,\; F_k=16,\; f_{me}=15,\; p=10\)</p><p>\(Me = 50{,}5 + \left(\dfrac{25 - 16}{15}\right)\times 10 = 50{,}5 + 6 = 56{,}5\)</p></details></article><article class="ex"><h3>Latihan 3 <small>(Modus)</small></h3><p>Lama waktu 40 siswa mengerjakan sebuah tugas disajikan pada tabel berikut. Tentukan modus data tersebut.</p><div class="tw"><table><caption>Waktu (menit)</caption><thead><tr><th>Kelas</th><th>\(f_i\)</th></tr></thead><tbody><tr><td>10–14</td><td>6</td></tr><tr><td>15–19</td><td>7</td></tr><tr><td>20–24</td><td>10</td></tr><tr><td>25–29</td><td>8</td></tr><tr><td>30–34</td><td>5</td></tr><tr><td>35–39</td><td>4</td></tr><tr class=tot><td>Jumlah</td><td>\(n=40\)</td></tr></tbody></table></div><details><summary>Lihat jawaban dan pembahasan</summary><p class="key"><b>Jawaban:</b> \(Mo = 22{,}5\)</p><p>Kelas modus: <b>20–24</b> (frekuensi terbesar = 10).</p><p>\(T_b=19{,}5,\; d_1=10-7=3,\; d_2=10-8=2,\; p=5\)</p><p>\(Mo = 19{,}5 + \left(\dfrac{3}{3+2}\right)\times 5 = 19{,}5 + 3 = 22{,}5\)</p></details></article><article class="ex"><h3>Latihan 4 <small>(Mean, median, dan modus)</small></h3><p>Nilai ulangan 40 siswa disajikan pada tabel berikut. Tentukan mean, median, dan modus data tersebut, lalu urutkan dari yang terkecil.</p><div class="tw"><table><caption>Nilai ulangan</caption><thead><tr><th>Kelas</th><th>\(f_i\)</th></tr></thead><tbody><tr><td>51–60</td><td>2</td></tr><tr><td>61–70</td><td>10</td></tr><tr><td>71–80</td><td>10</td></tr><tr><td>81–90</td><td>12</td></tr><tr><td>91–100</td><td>6</td></tr><tr class=tot><td>Jumlah</td><td>\(n=40\)</td></tr></tbody></table></div><details><summary>Lihat jawaban dan pembahasan</summary><p class="key"><b>Jawaban:</b> \(\bar{x}=78\quad Me=78{,}5\quad Mo=83\)</p><h4>a. Mean</h4><p>Titik tengah: \(55{,}5\), \(65{,}5\), \(75{,}5\), \(85{,}5\), \(95{,}5\).</p><p>\(\sum f_ix_i = 2\times 55{,}5 + 10\times 65{,}5 + 10\times 75{,}5 + 12\times 85{,}5 + 6\times 95{,}5 = 3.120\)</p><p>\(\bar{x} = \dfrac{3.120}{40} = 78\)</p><h4>b. Median</h4><p>\(\tfrac{n}{2} = 20\); frekuensi kumulatif: 2, 12, 22, 34, 40. Kelas median: <b>71–80</b>.</p><p>\(T_b=70{,}5,\; F_k=12,\; f_{me}=10,\; p=10\)</p><p>\(Me = 70{,}5 + \left(\dfrac{20 - 12}{10}\right)\times 10 = 70{,}5 + 8 = 78{,}5\)</p><h4>c. Modus</h4><p>Kelas modus: <b>81–90</b> (frekuensi terbesar = 12).</p><p>\(T_b=80{,}5,\; d_1=12-10=2,\; d_2=12-6=6,\; p=10\)</p><p>\(Mo = 80{,}5 + \left(\dfrac{2}{2+6}\right)\times 10 = 80{,}5 + 2{,}5 = 83\)</p><p>Urutan: \(\bar{x} < Me < Mo\) karena \(78 < 78{,}5 < 83\).</p></details></article>
-</main>
-<footer>Materi Statistika · Mean, Median, dan Modus Data Kelompok</footer>
-</body></html>
+            /* Tampilkan SEMUA tab secara berurutan saat dicetak */
+            .tab-content {
+                display: block !important;
+                opacity: 1 !important;
+                transform: none !important;
+                margin-bottom: 24px;
+            }
+
+            /* Buka semua langkah contoh soal secara otomatis saat cetak */
+            .step-box {
+                display: block !important;
+            }
+
+            .print-clean {
+                box-shadow: none !important;
+                border: 1px solid #000000 !important;
+                background: #ffffff !important;
+                color: #000000 !important;
+                padding: 12px !important;
+                margin-bottom: 14px !important;
+            }
+
+            table, th, td {
+                border: 1px solid #000000 !important;
+                color: #000000 !important;
+                background: #ffffff !important;
+            }
+
+            .print-header-doc {
+                display: block !important;
+                text-align: center;
+                border-bottom: 2px solid #000;
+                padding-bottom: 10px;
+                margin-bottom: 20px;
+            }
+
+            .page-break {
+                page-break-before: always;
+            }
+
+            /* Sembunyikan kontrol interaktif kuis saat cetak */
+            .quiz-controls, .quiz-feedback, #quiz-result-box {
+                display: none !important;
+            }
+
+            input[type="radio"] {
+                appearance: none;
+                -webkit-appearance: none;
+                width: 12px;
+                height: 12px;
+                border: 1px solid #000;
+                border-radius: 50%;
+                display: inline-block;
+                margin-right: 6px;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- Header Dokumen Cetak (Hanya muncul saat Print PDF) -->
+    <div class="hidden print-header-doc">
+        <h1 style="font-size: 16pt; font-weight: bold; margin: 0;">MODUL PEMBELAJARAN & LEMBAR KERJA SISWA (LKS)</h1>
+        <h2 style="font-size: 14pt; font-weight: bold; margin: 4px 0;">STATISTIKA DATA KELOMPOK</h2>
+        <p style="font-size: 11pt; margin: 0;">Mata Pelajaran: Matematika Wajib | Kelas XII SMA/MA</p>
+    </div>
+
+    <!-- Header & Navigasi Layar -->
+    <header class="bg-violet-800 text-white shadow-md sticky top-0 z-50 no-print">
+        <div class="max-w-5xl mx-auto px-4 py-4 flex flex-col sm:flex-row justify-between items-center gap-3">
+            <div class="flex items-center gap-3">
+                <div class="bg-white text-violet-800 p-2.5 rounded-lg font-bold text-xl shadow-sm">
+                    <i class="fa-solid fa-chart-pie"></i>
+                </div>
+                <div>
+                    <h1 class="text-lg sm:text-xl font-bold tracking-tight">E-Modul Statistika Data Kelompok</h1>
+                    <p class="text-xs text-violet-200">Materi, Contoh Runut, Latihan & Cetak PDF</p>
+                </div>
+            </div>
+            
+            <button onclick="cetakPDF()" class="bg-amber-400 hover:bg-amber-500 text-slate-950 font-bold px-4 py-2 rounded-lg shadow transition flex items-center gap-2 text-sm cursor-pointer">
+                <i class="fa-solid fa-file-pdf"></i>
+                <span>Cetak / Simpan PDF</span>
+            </button>
+        </div>
+
+        <!-- Tab Navigasi Per Topik -->
+        <nav class="bg-violet-950/70 border-t border-violet-700">
+            <div class="max-w-5xl mx-auto px-4 flex overflow-x-auto no-scrollbar">
+                <button onclick="switchTab('konsep')" id="btn-konsep" class="tab-btn active px-4 py-3 text-xs sm:text-sm font-semibold border-b-2 border-white text-white whitespace-nowrap flex items-center gap-2 transition">
+                    <i class="fa-solid fa-book-open"></i> 1. Konsep & Distribusi
+                </button>
+                <button onclick="switchTab('pemusatan')" id="btn-pemusatan" class="tab-btn px-4 py-3 text-xs sm:text-sm font-semibold border-b-2 border-transparent text-violet-200 hover:text-white whitespace-nowrap flex items-center gap-2 transition">
+                    <i class="fa-solid fa-calculator"></i> 2. Ukuran Pemusatan
+                </button>
+                <button onclick="switchTab('penyebaran')" id="btn-penyebaran" class="tab-btn px-4 py-3 text-xs sm:text-sm font-semibold border-b-2 border-transparent text-violet-200 hover:text-white whitespace-nowrap flex items-center gap-2 transition">
+                    <i class="fa-solid fa-arrows-split-up-and-left"></i> 3. Ukuran Penyebaran
+                </button>
+                <button onclick="switchTab('latihan')" id="btn-latihan" class="tab-btn px-4 py-3 text-xs sm:text-sm font-semibold border-b-2 border-transparent text-violet-200 hover:text-white whitespace-nowrap flex items-center gap-2 transition">
+                    <i class="fa-solid fa-pen-to-square"></i> 4. Latihan Soal
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Konten Utama -->
+    <main class="flex-grow max-w-5xl w-full mx-auto px-4 py-6 sm:py-8">
+
+        <!-- ==============================================================
+             BAGIAN 1: KONSEP DASAR & DISTRIBUSI FREKUENSI
+             ============================================================== -->
+        <section id="tab-konsep" class="tab-content active">
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 mb-6 print-clean">
+                <div class="flex items-center gap-2 text-violet-800 font-bold text-xl mb-4 border-b pb-3">
+                    <i class="fa-solid fa-table-cells no-print"></i>
+                    <h2>I. Konsep Dasar & Distribusi Frekuensi Data Kelompok</h2>
+                </div>
+
+                <p class="mb-3 leading-relaxed">
+                    <strong>Statistika Data Kelompok</strong> adalah metode pengolahan data yang disajikan dalam bentuk kelas-kelas interval (umumnya digunakan untuk data berjumlah besar, $n \ge 30$).
+                </p>
+
+                <div class="bg-violet-50 border-l-4 border-violet-700 p-4 rounded-r-lg mb-5 print-clean">
+                    <p class="font-bold text-violet-950 mb-2">Istilah Kunci pada Tabel Distribusi Frekuensi:</p>
+                    <ul class="list-disc list-inside text-sm space-y-1.5">
+                        <li><strong>Batas Kelas:</strong> Nilai ujung bawah (Batas Bawah) dan ujung atas (Batas Atas) yang tertulis pada setiap kelas interval.</li>
+                        <li><strong>Tepi Kelas (Batas Nyata):</strong><br>
+                            • Tepi Bawah ($T_b$) = $\text{Batas Bawah} - 0{,}5$<br>
+                            • Tepi Atas ($T_a$) = $\text{Batas Atas} + 0{,}5$ (berlaku untuk data bilangan bulat).
+                        </li>
+                        <li><strong>Panjang Kelas ($p$ atau $c$):</strong> Selisih antara tepi atas dan tepi bawah suatu kelas ($p = T_a - T_b$), atau selisih dua batas bawah kelas yang berurutan.</li>
+                        <li><strong>Titik Tengah ($x_i$):</strong> Nilai wakil setiap kelas, dirumuskan $x_i = \frac{1}{2}(\text{Batas Bawah} + \text{Batas Atas})$.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="flex justify-end no-print">
+                <button onclick="switchTab('pemusatan')" class="bg-violet-700 hover:bg-violet-800 text-white px-5 py-2.5 rounded-lg font-medium shadow transition flex items-center gap-2 cursor-pointer">
+                    <span>Lanjut ke Ukuran Pemusatan</span> <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- ==============================================================
+             BAGIAN 2: UKURAN PEMUSATAN (MEAN, MEDIAN, MODUS + CONTOH RUNUT)
+             ============================================================== -->
+        <section id="tab-pemusatan" class="tab-content page-break">
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 mb-6 print-clean">
+                <div class="flex items-center gap-2 text-violet-800 font-bold text-xl mb-2 border-b pb-3">
+                    <i class="fa-solid fa-calculator no-print"></i>
+                    <h2>II. Ukuran Pemusatan Data Kelompok (Mean, Median, Modus)</h2>
+                </div>
+                <p class="text-sm text-slate-600 mb-6 no-print">Klik tombol <strong>"Langkah Berikutnya"</strong> pada masing-masing contoh untuk melihat tahapan pengerjaannya secara bertahap.</p>
+
+                <!-- 1. RATA-RATA (MEAN) -->
+                <div class="border border-slate-300 rounded-xl p-5 mb-6 bg-slate-50/50 print-clean">
+                    <div class="flex flex-wrap justify-between items-center gap-2 mb-2">
+                        <h3 class="font-bold text-violet-900 text-lg">1. Rata-rata (Mean) $\bar{x}$</h3>
+                        <div class="flex gap-1.5 no-print">
+                            <button onclick="prevStep('mean')" id="prev-mean" disabled class="px-2.5 py-1 bg-white border border-slate-300 rounded text-xs font-semibold disabled:opacity-40 cursor-pointer">Sebelumnya</button>
+                            <button onclick="nextStep('mean')" id="next-mean" class="px-2.5 py-1 bg-violet-700 text-white rounded text-xs font-semibold hover:bg-violet-800 cursor-pointer">Langkah Berikutnya</button>
+                            <button onclick="allStep('mean')" class="px-2.5 py-1 bg-slate-200 text-slate-800 rounded text-xs font-semibold hover:bg-slate-300 cursor-pointer">Semua</button>
+                        </div>
+                    </div>
+                    <div class="bg-white p-3 rounded border border-violet-200 text-center my-3 print-clean">
+                        $$\bar{x} = \frac{\sum_{i=1}^{k} (f_i \cdot x_i)}{\sum_{i=1}^{k} f_i}$$
+                    </div>
+
+                    <p class="font-semibold text-slate-900 text-sm mb-2">Contoh Soal Mean: Hitunglah rata-rata dari data tabel distribusi frekuensi di bawah ini!</p>
+                    <div class="space-y-2.5">
+                        <div class="step-box step-mean bg-white p-3 rounded border-l-4 border-violet-700 text-sm print-clean">
+                            <strong>Langkah 1 (Lengkapi Kolom Titik Tengah $x_i$ dan Hasil Kali $f_i \cdot x_i$):</strong>
+                            <div class="overflow-x-auto mt-2">
+                                <table class="w-full text-xs text-center border border-slate-300">
+                                    <thead class="bg-violet-100">
+                                        <tr>
+                                            <th class="border p-1.5">Interval Nilai</th>
+                                            <th class="border p-1.5">Frekuensi ($f_i$)</th>
+                                            <th class="border p-1.5">Titik Tengah ($x_i$)</th>
+                                            <th class="border p-1.5">$f_i \cdot x_i$</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr><td class="border p-1">51 – 60</td><td class="border p-1">4</td><td class="border p-1">55,5</td><td class="border p-1">222</td></tr>
+                                        <tr><td class="border p-1">61 – 70</td><td class="border p-1">8</td><td class="border p-1">65,5</td><td class="border p-1">524</td></tr>
+                                        <tr><td class="border p-1">71 – 80</td><td class="border p-1">10</td><td class="border p-1">75,5</td><td class="border p-1">755</td></tr>
+                                        <tr><td class="border p-1">81 – 90</td><td class="border p-1">8</td><td class="border p-1">85,5</td><td class="border p-1">684</td></tr>
+                                        <tr class="font-bold bg-slate-100"><td class="border p-1">Jumlah ($\sum$)</td><td class="border p-1">30</td><td class="border p-1">—</td><td class="border p-1">2.185</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="step-box step-mean hidden bg-emerald-50 p-3 rounded border-l-4 border-emerald-600 text-sm print-clean">
+                            <strong>Langkah 2 (Substitusi ke Rumus Rata-rata):</strong>
+                            $$\bar{x} = \frac{\sum (f_i \cdot x_i)}{\sum f_i} = \frac{2.185}{30} = 72{,}83$$
+                            Jadi, rata-rata data tersebut adalah <strong>$72{,}83$</strong>.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. MEDIAN -->
+                <div class="border border-slate-300 rounded-xl p-5 mb-6 bg-slate-50/50 print-clean">
+                    <div class="flex flex-wrap justify-between items-center gap-2 mb-2">
+                        <h3 class="font-bold text-violet-900 text-lg">2. Median ($M_e$)</h3>
+                        <div class="flex gap-1.5 no-print">
+                            <button onclick="prevStep('median')" id="prev-median" disabled class="px-2.5 py-1 bg-white border border-slate-300 rounded text-xs font-semibold disabled:opacity-40 cursor-pointer">Sebelumnya</button>
+                            <button onclick="nextStep('median')" id="next-median" class="px-2.5 py-1 bg-violet-700 text-white rounded text-xs font-semibold hover:bg-violet-800 cursor-pointer">Langkah Berikutnya</button>
+                            <button onclick="allStep('median')" class="px-2.5 py-1 bg-slate-200 text-slate-800 rounded text-xs font-semibold hover:bg-slate-300 cursor-pointer">Semua</button>
+                        </div>
+                    </div>
+                    <div class="bg-white p-3 rounded border border-violet-200 text-center my-3 print-clean">
+                        $$M_e = T_b + \left( \frac{\frac{1}{2}n - fk_s}{f_m} \right) \cdot p$$
+                    </div>
+
+                    <p class="font-semibold text-slate-900 text-sm mb-2">Contoh Soal Median: Tentukan nilai median ($M_e$) dari tabel data berikut!</p>
+                    <div class="space-y-2.5">
+                        <div class="step-box step-median bg-white p-3 rounded border-l-4 border-violet-700 text-sm print-clean">
+                            <strong>Langkah 1 (Hitung Frekuensi Kumulatif $fk$ dan Letak Kelas Median):</strong>
+                            <div class="overflow-x-auto my-2">
+                                <table class="w-full text-xs text-center border border-slate-300">
+                                    <thead class="bg-violet-100">
+                                        <tr>
+                                            <th class="border p-1.5">Interval</th>
+                                            <th class="border p-1.5">Frekuensi ($f_i$)</th>
+                                            <th class="border p-1.5">Frekuensi Kumulatif ($fk$)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr><td class="border p-1">40 – 44</td><td class="border p-1">5</td><td class="border p-1">5</td></tr>
+                                        <tr><td class="border p-1">45 – 49</td><td class="border p-1">9</td><td class="border p-1">14</td></tr>
+                                        <tr class="bg-amber-50 font-semibold"><td class="border p-1">50 – 54 (Kelas Median)</td><td class="border p-1">12</td><td class="border p-1">26</td></tr>
+                                        <tr><td class="border p-1">55 – 59</td><td class="border p-1">8</td><td class="border p-1">34</td></tr>
+                                        <tr><td class="border p-1">60 – 64</td><td class="border p-1">6</td><td class="border p-1">40</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            Total data $n = 40$. Letak median berada pada datum ke-$\frac{1}{2}n = \frac{1}{2}(40) = 20$.<br>
+                            Datum ke-$20$ terletak pada kelas <strong>$50 - 54$</strong> (karena $fk$ mencapai $26$, mencakup datum ke-$15$ s.d. ke-$26$).
+                        </div>
+                        <div class="step-box step-median hidden bg-white p-3 rounded border-l-4 border-violet-700 text-sm print-clean">
+                            <strong>Langkah 2 (Tentukan Komponen Rumus):</strong><br>
+                            • Tepi bawah kelas median: $T_b = 50 - 0{,}5 = 49{,}5$<br>
+                            • Frekuensi kumulatif sebelum kelas median: $fk_s = 14$<br>
+                            • Frekuensi kelas median: $f_m = 12$<br>
+                            • Panjang kelas: $p = 54{,}5 - 49{,}5 = 5$
+                        </div>
+                        <div class="step-box step-median hidden bg-emerald-50 p-3 rounded border-l-4 border-emerald-600 text-sm print-clean">
+                            <strong>Langkah 3 (Hitung Nilai Median):</strong>
+                            $$
+                            \begin{aligned}
+                            M_e &= 49{,}5 + \left( \frac{20 - 14}{12} \right) \cdot 5 \\
+                            &= 49{,}5 + \left( \frac{6}{12} \right) \cdot 5 \\
+                            &= 49{,}5 + 0{,}5 \cdot 5 = 49{,}5 + 2{,}5 = 52{,}0
+                            \end{aligned}
+                            $$
+                            Jadi, nilai mediannya adalah <strong>$52{,}0$</strong>.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. MODUS -->
+                <div class="border border-slate-300 rounded-xl p-5 bg-slate-50/50 print-clean">
+                    <div class="flex flex-wrap justify-between items-center gap-2 mb-2">
+                        <h3 class="font-bold text-violet-900 text-lg">3. Modus ($M_o$)</h3>
+                        <div class="flex gap-1.5 no-print">
+                            <button onclick="prevStep('modus')" id="prev-modus" disabled class="px-2.5 py-1 bg-white border border-slate-300 rounded text-xs font-semibold disabled:opacity-40 cursor-pointer">Sebelumnya</button>
+                            <button onclick="nextStep('modus')" id="next-modus" class="px-2.5 py-1 bg-violet-700 text-white rounded text-xs font-semibold hover:bg-violet-800 cursor-pointer">Langkah Berikutnya</button>
+                            <button onclick="allStep('modus')" class="px-2.5 py-1 bg-slate-200 text-slate-800 rounded text-xs font-semibold hover:bg-slate-300 cursor-pointer">Semua</button>
+                        </div>
+                    </div>
+                    <div class="bg-white p-3 rounded border border-violet-200 text-center my-3 print-clean">
+                        $$M_o = T_b + \left( \frac{d_1}{d_1 + d_2} \right) \cdot p$$
+                    </div>
+
+                    <p class="font-semibold text-slate-900 text-sm mb-2">Contoh Soal Modus: Menggunakan tabel data pada Contoh Median di atas, tentukan nilai modusnya ($M_o$)!</p>
+                    <div class="space-y-2.5">
+                        <div class="step-box step-modus bg-white p-3 rounded border-l-4 border-violet-700 text-sm print-clean">
+                            <strong>Langkah 1 (Identifikasi Kelas Modus):</strong><br>
+                            Kelas modus adalah kelas dengan frekuensi paling besar, yaitu kelas <strong>$50 - 54$</strong> dengan frekuensi $f = 12$.
+                        </div>
+                        <div class="step-box step-modus hidden bg-white p-3 rounded border-l-4 border-violet-700 text-sm print-clean">
+                            <strong>Langkah 2 (Tentukan Nilai $T_b, d_1, d_2,$ dan $p$):</strong><br>
+                            • Tepi bawah kelas modus: $T_b = 50 - 0{,}5 = 49{,}5$<br>
+                            • Selisih dengan frekuensi kelas sebelumnya ($f_{\text{sebelum}} = 9$): $d_1 = 12 - 9 = 3$<br>
+                            • Selisih dengan frekuensi kelas sesudahnya ($f_{\text{sesudah}} = 8$): $d_2 = 12 - 8 = 4$<br>
+                            • Panjang kelas: $p = 5$
+                        </div>
+                        <div class="step-box step-modus hidden bg-emerald-50 p-3 rounded border-l-4 border-emerald-600 text-sm print-clean">
+                            <strong>Langkah 3 (Hitung Nilai Modus):</strong>
+                            $$
+                            \begin{aligned}
+                            M_o &= 49{,}5 + \left( \frac{3}{3 + 4} \right) \cdot 5 \\
+                            &= 49{,}5 + \frac{15}{7} \\
+                            &= 49{,}5 + 2{,}14 = 51{,}64
+                            \end{aligned}
+                            $$
+                            Jadi, nilai modusnya adalah <strong>$51{,}64$</strong>.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex justify-between no-print">
+                <button onclick="switchTab('konsep')" class="bg-slate-200 hover:bg-slate-300 text-slate-800 px-4 py-2.5 rounded-lg font-medium transition flex items-center gap-2 cursor-pointer">
+                    <i class="fa-solid fa-arrow-left"></i> <span>Konsep Dasar</span>
+                </button>
+                <button onclick="switchTab('penyebaran')" class="bg-violet-700 hover:bg-violet-800 text-white px-5 py-2.5 rounded-lg font-medium shadow transition flex items-center gap-2 cursor-pointer">
+                    <span>Lanjut ke Ukuran Penyebaran</span> <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- ==============================================================
+             BAGIAN 3: UKURAN PENYEBARAN (KONSEP + CONTOH LENGKAP RUNUT)
+             ============================================================== -->
+        <section id="tab-penyebaran" class="tab-content page-break">
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 mb-6 print-clean">
+                <div class="flex items-center gap-2 text-violet-800 font-bold text-xl mb-2 border-b pb-3">
+                    <i class="fa-solid fa-arrows-split-up-and-left no-print"></i>
+                    <h2>III. Ukuran Penyebaran Data Kelompok</h2>
+                </div>
+                <p class="text-sm text-slate-600 mb-5">Ukuran penyebaran mengukur seberapa jauh data menyebar dari nilai pusatnya ($\bar{x}$).</p>
+
+                <!-- Ringkasan Rumus Penyebaran -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                    <div class="bg-violet-50/70 border border-violet-200 rounded-lg p-4 print-clean">
+                        <h4 class="font-bold text-violet-950 text-sm mb-1">1. Simpangan Rata-Rata ($SR$)</h4>
+                        <div class="bg-white p-2 rounded border text-center my-2 text-xs print-clean">
+                            $$SR = \frac{\sum f_i \, |x_i - \bar{x}|}{\sum f_i}$$
+                        </div>
+                    </div>
+                    <div class="bg-violet-50/70 border border-violet-200 rounded-lg p-4 print-clean">
+                        <h4 class="font-bold text-violet-950 text-sm mb-1">2. Ragam / Varians ($S^2$)</h4>
+                        <div class="bg-white p-2 rounded border text-center my-2 text-xs print-clean">
+                            $$S^2 = \frac{\sum f_i (x_i - \bar{x})^2}{\sum f_i}$$
+                        </div>
+                    </div>
+                    <div class="bg-violet-50/70 border border-violet-200 rounded-lg p-4 print-clean">
+                        <h4 class="font-bold text-violet-950 text-sm mb-1">3. Simpangan Baku ($S$)</h4>
+                        <div class="bg-white p-2 rounded border text-center my-2 text-xs print-clean">
+                            $$S = \sqrt{S^2} = \sqrt{\frac{\sum f_i (x_i - \bar{x})^2}{\sum f_i}}$$
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONTOH TERPADU PENYEBARAN DATA (SR, RAGAM, SIMPANGAN BAKU) -->
+                <div class="border border-slate-300 rounded-xl p-5 bg-slate-50/50 print-clean">
+                    <div class="flex flex-wrap justify-between items-center gap-2 mb-3">
+                        <span class="bg-violet-100 text-violet-900 text-xs font-bold px-3 py-1 rounded-full print-clean">Contoh Terpadu — Menghitung $SR$, Ragam ($S^2$), dan Simpangan Baku ($S$)</span>
+                        <div class="flex gap-1.5 no-print">
+                            <button onclick="prevStep('sebar')" id="prev-sebar" disabled class="px-2.5 py-1 bg-white border border-slate-300 rounded text-xs font-semibold disabled:opacity-40 cursor-pointer">Sebelumnya</button>
+                            <button onclick="nextStep('sebar')" id="next-sebar" class="px-2.5 py-1 bg-violet-700 text-white rounded text-xs font-semibold hover:bg-violet-800 cursor-pointer">Langkah Berikutnya</button>
+                            <button onclick="allStep('sebar')" class="px-2.5 py-1 bg-slate-200 text-slate-800 rounded text-xs font-semibold hover:bg-slate-300 cursor-pointer">Semua</button>
+                        </div>
+                    </div>
+
+                    <p class="font-semibold text-slate-900 text-sm mb-3">
+                        Diketahui data kelompok berikut: Interval $11 - 15$ ($f = 2$), Interval $16 - 20$ ($f = 5$), dan Interval $21 - 25$ ($f = 3$). Tentukan: (a) Simpangan Rata-rata ($SR$), (b) Ragam ($S^2$), dan (c) Simpangan Baku ($S$)!
+                    </p>
+
+                    <div class="space-y-3">
+                        <div class="step-box step-sebar bg-white p-3.5 rounded border-l-4 border-violet-700 text-sm print-clean">
+                            <strong>Langkah 1 (Hitung Rata-rata $\bar{x}$ Terlebih Dahulu):</strong><br>
+                            • Titik tengah tiap kelas: $x_1 = 13$, $x_2 = 18$, $x_3 = 23$.<br>
+                            • Jumlah frekuensi: $\sum f_i = 2 + 5 + 3 = 10$.<br>
+                            • Jumlah $f_i \cdot x_i = (2 \times 13) + (5 \times 18) + (3 \times 23) = 26 + 90 + 69 = 185$.<br>
+                            $$\bar{x} = \frac{185}{10} = 18{,}5$$
+                        </div>
+
+                        <div class="step-box step-sebar hidden bg-white p-3.5 rounded border-l-4 border-violet-700 text-sm print-clean">
+                            <strong>Langkah 2 (Susun Tabel Kolom Simpangan $|x_i - \bar{x}|$ dan Kuadratnya $(x_i - \bar{x})^2$):</strong>
+                            <div class="overflow-x-auto mt-2">
+                                <table class="w-full text-xs text-center border border-slate-300">
+                                    <thead class="bg-violet-100">
+                                        <tr>
+                                            <th class="border p-1.5">Interval</th>
+                                            <th class="border p-1.5">$f_i$</th>
+                                            <th class="border p-1.5">$x_i$</th>
+                                            <th class="border p-1.5">$|x_i - \bar{x}|$</th>
+                                            <th class="border p-1.5">$f_i |x_i - \bar{x}|$</th>
+                                            <th class="border p-1.5">$(x_i - \bar{x})^2$</th>
+                                            <th class="border p-1.5">$f_i (x_i - \bar{x})^2$</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="border p-1">11 – 15</td>
+                                            <td class="border p-1">2</td>
+                                            <td class="border p-1">13</td>
+                                            <td class="border p-1">$|13 - 18{,}5| = 5{,}5$</td>
+                                            <td class="border p-1">$2 \times 5{,}5 = 11$</td>
+                                            <td class="border p-1">$(5{,}5)^2 = 30{,}25$</td>
+                                            <td class="border p-1">$2 \times 30{,}25 = 60{,}5$</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="border p-1">16 – 20</td>
+                                            <td class="border p-1">5</td>
+                                            <td class="border p-1">18</td>
+                                            <td class="border p-1">$|18 - 18{,}5| = 0{,}5$</td>
+                                            <td class="border p-1">$5 \times 0{,}5 = 2{,}5$</td>
+                                            <td class="border p-1">$(0{,}5)^2 = 0{,}25$</td>
+                                            <td class="border p-1">$5 \times 0{,}25 = 1{,}25$</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="border p-1">21 – 25</td>
+                                            <td class="border p-1">3</td>
+                                            <td class="border p-1">23</td>
+                                            <td class="border p-1">$|23 - 18{,}5| = 4{,}5$</td>
+                                            <td class="border p-1">$3 \times 4{,}5 = 13{,}5$</td>
+                                            <td class="border p-1">$(4{,}5)^2 = 20{,}25$</td>
+                                            <td class="border p-1">$3 \times 20{,}25 = 60{,}75$</td>
+                                        </tr>
+                                        <tr class="font-bold bg-slate-100">
+                                            <td class="border p-1">Jumlah ($\sum$)</td>
+                                            <td class="border p-1">10</td>
+                                            <td class="border p-1">—</td>
+                                            <td class="border p-1">—</td>
+                                            <td class="border p-1">27</td>
+                                            <td class="border p-1">—</td>
+                                            <td class="border p-1">122,5</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="step-box step-sebar hidden bg-emerald-50 p-3.5 rounded border-l-4 border-emerald-600 text-sm print-clean">
+                            <strong>Langkah 3 (Hitung $SR$, Ragam $S^2$, dan Simpangan Baku $S$):</strong><br>
+                            a) <strong>Simpangan Rata-rata ($SR$):</strong>
+                            $$SR = \frac{\sum f_i |x_i - \bar{x}|}{\sum f_i} = \frac{27}{10} = \mathbf{2{,}7}$$
+                            b) <strong>Ragam / Varians ($S^2$):</strong>
+                            $$S^2 = \frac{\sum f_i (x_i - \bar{x})^2}{\sum f_i} = \frac{122{,}5}{10} = \mathbf{12{,}25}$$
+                            c) <strong>Simpangan Baku ($S$):</strong>
+                            $$S = \sqrt{S^2} = \sqrt{12{,}25} = \mathbf{3{,}5}$$
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex justify-between no-print">
+                <button onclick="switchTab('pemusatan')" class="bg-slate-200 hover:bg-slate-300 text-slate-800 px-4 py-2.5 rounded-lg font-medium transition flex items-center gap-2 cursor-pointer">
+                    <i class="fa-solid fa-arrow-left"></i> <span>Ukuran Pemusatan</span>
+                </button>
+                <button onclick="switchTab('latihan')" class="bg-violet-700 hover:bg-violet-800 text-white px-5 py-2.5 rounded-lg font-medium shadow transition flex items-center gap-2 cursor-pointer">
+                    <span>Mulai Latihan Soal</span> <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- ==============================================================
+             BAGIAN 4: LATIHAN SOAL MANDIRI
+             ============================================================== -->
+        <section id="tab-latihan" class="tab-content page-break">
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 mb-6 print-clean">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b pb-3 mb-4">
+                    <div class="flex items-center gap-2 text-violet-800 font-bold text-xl">
+                        <i class="fa-solid fa-clipboard-check no-print"></i>
+                        <h2>IV. Latihan Soal Mandiri Statistika Data Kelompok</h2>
+                    </div>
+                    <span class="text-xs font-semibold bg-slate-100 text-slate-700 px-3 py-1 rounded-full no-print">
+                        5 Soal Pilihan Ganda (Mean, Median, Modus & Penyebaran)
+                    </span>
+                </div>
+
+                <p class="text-sm text-slate-600 mb-6 no-print">
+                    Kerjakan soal di bawah ini, lalu klik tombol <strong>"Periksa Jawaban"</strong> untuk melihat skor dan pembahasan lengkapnya.
+                </p>
+
+                <form id="quiz-form" class="space-y-6">
+                    <!-- Soal dirender oleh JavaScript -->
+                </form>
+
+                <div class="mt-8 pt-4 border-t flex flex-wrap gap-3 items-center justify-between quiz-controls no-print">
+                    <button type="button" onclick="periksaKuis()" class="bg-violet-700 hover:bg-violet-800 text-white font-semibold px-6 py-2.5 rounded-lg shadow transition flex items-center gap-2 cursor-pointer">
+                        <i class="fa-solid fa-check-double"></i> Periksa Jawaban
+                    </button>
+                    <button type="button" onclick="resetKuis()" class="bg-slate-200 hover:bg-slate-300 text-slate-800 font-medium px-4 py-2.5 rounded-lg transition flex items-center gap-2 cursor-pointer">
+                        <i class="fa-solid fa-rotate-right"></i> Ulangi Latihan
+                    </button>
+                </div>
+
+                <div id="quiz-result-box" class="hidden mt-6 p-5 rounded-xl border-2 no-print">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h3 class="text-lg font-bold" id="result-title">Hasil Latihan Anda</h3>
+                            <p class="text-sm mt-1" id="result-desc"></p>
+                        </div>
+                        <div class="text-center bg-white px-4 py-2 rounded-lg shadow-xs border">
+                            <span class="block text-xs text-slate-500 uppercase font-bold">Skor Akhir</span>
+                            <span class="text-3xl font-extrabold text-violet-700" id="result-score">0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-900 text-slate-400 text-center py-4 text-xs no-print mt-auto">
+        <p>Media Pembelajaran Interaktif Matematika SMA — Statistika Data Kelompok</p>
+    </footer>
+
+    <!-- ==============================================================
+         JAVASCRIPT LOGIKA INTERAKTIF
+         ============================================================== -->
+    <script>
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active', 'border-white', 'text-white');
+                btn.classList.add('border-transparent', 'text-violet-200');
+            });
+
+            document.getElementById('tab-' + tabId).classList.add('active');
+            const activeBtn = document.getElementById('btn-' + tabId);
+            activeBtn.classList.add('active', 'border-white', 'text-white');
+            activeBtn.classList.remove('border-transparent', 'text-violet-200');
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Step-by-Step Controller
+        const stepCounters = {
+            'mean': 1,
+            'median': 1,
+            'modus': 1,
+            'sebar': 1
+        };
+
+        function updateExampleSteps(key) {
+            const items = document.querySelectorAll(`.step-${key}`);
+            const current = stepCounters[key];
+            const total = items.length;
+
+            items.forEach((el, idx) => {
+                if (idx < current) el.classList.remove('hidden');
+                else el.classList.add('hidden');
+            });
+
+            document.getElementById(`prev-${key}`).disabled = (current <= 1);
+            document.getElementById(`next-${key}`).disabled = (current >= total);
+        }
+
+        function nextStep(key) {
+            const total = document.querySelectorAll(`.step-${key}`).length;
+            if (stepCounters[key] < total) {
+                stepCounters[key]++;
+                updateExampleSteps(key);
+            }
+        }
+
+        function prevStep(key) {
+            if (stepCounters[key] > 1) {
+                stepCounters[key]--;
+                updateExampleSteps(key);
+            }
+        }
+
+        function allStep(key) {
+            const total = document.querySelectorAll(`.step-${key}`).length;
+            stepCounters[key] = total;
+            updateExampleSteps(key);
+        }
+
+        const soalLatihan = [
+            {
+                id: 1,
+                kategori: "Rata-rata (Mean)",
+                pertanyaan: "Diketahui data nilai ujian matematika kelas XII sebagai berikut: Kelas 41–50 (frekuensi 4), 51–60 (frekuensi 6), 61–70 (frekuensi 10), 71–80 (frekuensi 14), 81–90 (frekuensi 6). Rata-rata nilai ujian tersebut adalah ...",
+                opsi: ["66,5", "68,0", "69,5", "71,0"],
+                jawabanBenar: 2,
+                pembahasan: "Titik tengah ($x_i$): 45,5; 55,5; 65,5; 75,5; 85,5. Jumlah $f_i \\cdot x_i = (4\\times 45{,}5)+(6\\times 55{,}5)+(10\\times 65{,}5)+(14\\times 75{,}5)+(6\\times 85{,}5) = 182 + 333 + 655 + 1057 + 513 = 2.740$. Total frekuensi $n = 40$. Rata-rata $= 2.740 / 40 = 69{,}5$."
+            },
+            {
+                id: 2,
+                kategori: "Modus Data Kelompok",
+                pertanyaan: "Modus dari data distribusi frekuensi: Kelas 30–34 (frekuensi 8), 35–39 (frekuensi 12), 40–44 (frekuensi 18), 45–49 (frekuensi 10), 50–54 (frekuensi 6) adalah ...",
+                opsi: ["41,14", "41,64", "42,14", "42,50"],
+                jawabanBenar: 1,
+                pembahasan: "Kelas modus berada pada interval 40–44 (frekuensi tertinggi 18). $T_b = 39{,}5$, $p = 5$, $d_1 = 18 - 12 = 6$, $d_2 = 18 - 10 = 8$. $M_o = 39{,}5 + \\left(\\frac{6}{6+8}\\right) \\cdot 5 = 39{,}5 + \\frac{30}{14} = 39{,}5 + 2{,}14 = 41{,}64$."
+            },
+            {
+                id: 3,
+                kategori: "Median Data Kelompok",
+                pertanyaan: "Dari tabel distribusi frekuensi: Kelas 20–24 ($f=3$), 25–29 ($f=6$), 30–34 ($f=10$), 35–39 ($f=8$), 40–44 ($f=3$). Nilai median dari data tersebut adalah ...",
+                opsi: ["31,5", "32,0", "32,5", "33,0"],
+                jawabanBenar: 2,
+                pembahasan: "Total frekuensi $n = 30$. Letak median $= \\frac{1}{2}(30) = 15$, berada pada kelas 30–34 ($fk_s = 3 + 6 = 9$, $f_m = 10$, $T_b = 29{,}5$, $p = 5$). $M_e = 29{,}5 + \\left(\\frac{15 - 9}{10}\\right) \\cdot 5 = 29{,}5 + \\frac{30}{10} = 29{,}5 + 3 = 32{,}5$."
+            },
+            {
+                id: 4,
+                kategori: "Simpangan Rata-rata",
+                pertanyaan: "Diketahui data kelompok memiliki jumlah $\\sum f_i |x_i - \\bar{x}| = 84$ dan total frekuensi $\\sum f_i = 20$. Nilai simpangan rata-rata ($SR$) data tersebut adalah ...",
+                opsi: ["3,8", "4,0", "4,2", "4,5"],
+                jawabanBenar: 2,
+                pembahasan: "$SR = \\frac{\\sum f_i |x_i - \\bar{x}|}{\\sum f_i} = \\frac{84}{20} = 4{,}2$."
+            },
+            {
+                id: 5,
+                kategori: "Ragam & Simpangan Baku",
+                pertanyaan: "Suatu data kelompok memiliki $\\sum f_i (x_i - \\bar{x})^2 = 360$ dengan jumlah frekuensi $n = 40$. Simpangan baku ($S$) dari data tersebut adalah ...",
+                opsi: ["3", "6", "9", "12"],
+                jawabanBenar: 0,
+                pembahasan: "Hitung ragam terlebih dahulu: $S^2 = \\frac{360}{40} = 9$. Maka simpangan baku $S = \\sqrt{S^2} = \\sqrt{9} = 3$."
+            }
+        ];
+
+        function renderQuiz() {
+            const container = document.getElementById('quiz-form');
+            container.innerHTML = '';
+            const huruf = ['A', 'B', 'C', 'D'];
+
+            soalLatihan.forEach((soal, idx) => {
+                let opsiHTML = '';
+                soal.opsi.forEach((teks, optIdx) => {
+                    opsiHTML += `
+                        <label class="flex items-center p-3 border border-slate-200 rounded-lg hover:bg-violet-50/50 cursor-pointer transition">
+                            <input type="radio" name="soal_${soal.id}" value="${optIdx}" class="w-4 h-4 text-violet-700 focus:ring-violet-600 mr-3">
+                            <span class="font-semibold mr-2">${huruf[optIdx]}.</span>
+                            <span>${teks}</span>
+                        </label>
+                    `;
+                });
+
+                container.innerHTML += `
+                    <div class="border border-slate-200 rounded-xl p-5 bg-slate-50/40 print-clean">
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+                            <span class="font-bold text-violet-900">Soal Nomor ${idx + 1}</span>
+                            <span class="text-xs font-semibold px-2.5 py-0.5 rounded bg-violet-100 text-violet-900 no-print">${soal.kategori}</span>
+                        </div>
+                        <div class="mb-4 text-slate-800 leading-relaxed">${soal.pertanyaan}</div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                            ${opsiHTML}
+                        </div>
+                        <div id="feedback-${soal.id}" class="quiz-feedback hidden mt-4 p-3.5 rounded-lg text-sm border"></div>
+                    </div>
+                `;
+            });
+
+            if (window.MathJax) MathJax.typesetPromise();
+        }
+
+        function periksaKuis() {
+            let benar = 0;
+            let terjawab = 0;
+
+            soalLatihan.forEach((soal) => {
+                const selected = document.querySelector(`input[name="soal_${soal.id}"]:checked`);
+                const fb = document.getElementById(`feedback-${soal.id}`);
+                fb.classList.remove('hidden', 'bg-emerald-50', 'border-emerald-300', 'text-emerald-900', 'bg-rose-50', 'border-rose-300', 'text-rose-900', 'bg-amber-50', 'border-amber-300', 'text-amber-900');
+
+                if (selected) {
+                    terjawab++;
+                    if (parseInt(selected.value) === soal.jawabanBenar) {
+                        benar++;
+                        fb.classList.add('bg-emerald-50', 'border-emerald-300', 'text-emerald-900');
+                        fb.innerHTML = `<p class="font-bold mb-1"><i class="fa-solid fa-circle-check text-emerald-600 mr-1"></i> Jawaban Benar!</p><p>${soal.pembahasan}</p>`;
+                    } else {
+                        fb.classList.add('bg-rose-50', 'border-rose-300', 'text-rose-900');
+                        fb.innerHTML = `<p class="font-bold mb-1"><i class="fa-solid fa-circle-xmark text-rose-600 mr-1"></i> Kurang Tepat.</p><p>${soal.pembahasan}</p>`;
+                    }
+                } else {
+                    fb.classList.add('bg-amber-50', 'border-amber-300', 'text-amber-900');
+                    fb.innerHTML = `<p class="font-bold"><i class="fa-solid fa-triangle-exclamation mr-1"></i> Anda belum memilih jawaban untuk soal ini.</p>`;
+                }
+            });
+
+            const skor = Math.round((benar / soalLatihan.length) * 100);
+            const resultBox = document.getElementById('quiz-result-box');
+            resultBox.classList.remove('hidden', 'bg-emerald-50', 'border-emerald-400', 'bg-amber-50', 'border-amber-400');
+            
+            if (skor >= 80) {
+                resultBox.classList.add('bg-emerald-50', 'border-emerald-400');
+                document.getElementById('result-title').textContent = "Luar Biasa! Penguasaan Statistika Data Kelompok Sangat Baik";
+            } else {
+                resultBox.classList.add('bg-amber-50', 'border-amber-400');
+                document.getElementById('result-title').textContent = "Terus Berlatih! Perhatikan Kembali Rumus Tepi Bawah dan Simpangan";
+            }
+
+            document.getElementById('result-desc').textContent = `Benar ${benar} dari ${soalLatihan.length} soal (${terjawab} soal dijawab).`;
+            document.getElementById('result-score').textContent = skor;
+
+            if (window.MathJax) MathJax.typesetPromise();
+            resultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function resetKuis() {
+            document.getElementById('quiz-form').reset();
+            document.querySelectorAll('.quiz-feedback').forEach(el => el.classList.add('hidden'));
+            document.getElementById('quiz-result-box').classList.add('hidden');
+        }
+
+        function cetakPDF() {
+            if (window.MathJax) {
+                MathJax.typesetPromise().then(() => window.print());
+            } else {
+                window.print();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', renderQuiz);
+    </script>
+</body>
+</html>
