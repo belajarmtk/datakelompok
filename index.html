@@ -61,7 +61,6 @@
                 display: none !important;
             }
 
-            /* Tampilkan SEMUA tab secara berurutan saat dicetak */
             .tab-content {
                 display: block !important;
                 opacity: 1 !important;
@@ -69,7 +68,6 @@
                 margin-bottom: 24px;
             }
 
-            /* Buka semua langkah contoh soal secara otomatis saat cetak */
             .step-box {
                 display: block !important;
             }
@@ -101,7 +99,6 @@
                 page-break-before: always;
             }
 
-            /* Sembunyikan kontrol interaktif kuis saat cetak */
             .quiz-controls, .quiz-feedback, #quiz-result-box {
                 display: none !important;
             }
@@ -137,7 +134,7 @@
                 </div>
                 <div>
                     <h1 class="text-lg sm:text-xl font-bold tracking-tight">E-Modul Statistika Data Kelompok</h1>
-                    <p class="text-xs text-violet-200">Materi, Contoh Runut, Latihan & Cetak PDF</p>
+                    <p class="text-xs text-violet-200">Materi, Contoh Runut, Latihan Tabel & Cetak PDF</p>
                 </div>
             </div>
             
@@ -384,7 +381,6 @@
                 </div>
                 <p class="text-sm text-slate-600 mb-5">Ukuran penyebaran mengukur seberapa jauh data menyebar dari nilai pusatnya ($\bar{x}$).</p>
 
-                <!-- Ringkasan Rumus Penyebaran -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                     <div class="bg-violet-50/70 border border-violet-200 rounded-lg p-4 print-clean">
                         <h4 class="font-bold text-violet-950 text-sm mb-1">1. Simpangan Rata-Rata ($SR$)</h4>
@@ -511,7 +507,7 @@
         </section>
 
         <!-- ==============================================================
-             BAGIAN 4: LATIHAN SOAL MANDIRI
+             BAGIAN 4: LATIHAN SOAL MANDIRI (DENGAN TABEL DISTRIBUSI RAPI)
              ============================================================== -->
         <section id="tab-latihan" class="tab-content page-break">
             <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 mb-6 print-clean">
@@ -521,7 +517,7 @@
                         <h2>IV. Latihan Soal Mandiri Statistika Data Kelompok</h2>
                     </div>
                     <span class="text-xs font-semibold bg-slate-100 text-slate-700 px-3 py-1 rounded-full no-print">
-                        5 Soal Pilihan Ganda (Mean, Median, Modus & Penyebaran)
+                        5 Soal Pilihan Ganda (Pemusatan & Penyebaran)
                     </span>
                 </div>
 
@@ -530,7 +526,7 @@
                 </p>
 
                 <form id="quiz-form" class="space-y-6">
-                    <!-- Soal dirender oleh JavaScript -->
+                    <!-- Soal dirender oleh JavaScript dengan tabel HTML yang rapi -->
                 </form>
 
                 <div class="mt-8 pt-4 border-t flex flex-wrap gap-3 items-center justify-between quiz-controls no-print">
@@ -564,7 +560,7 @@
     </footer>
 
     <!-- ==============================================================
-         JAVASCRIPT LOGIKA INTERAKTIF
+         JAVASCRIPT LOGIKA INTERAKTIF & DATA SOAL BER-TABEL
          ============================================================== -->
     <script>
         function switchTab(tabId) {
@@ -625,11 +621,27 @@
             updateExampleSteps(key);
         }
 
+        // Data Soal Latihan Lengkap dengan Tabel HTML
         const soalLatihan = [
             {
                 id: 1,
                 kategori: "Rata-rata (Mean)",
-                pertanyaan: "Diketahui data nilai ujian matematika kelas XII sebagai berikut: Kelas 41–50 (frekuensi 4), 51–60 (frekuensi 6), 61–70 (frekuensi 10), 71–80 (frekuensi 14), 81–90 (frekuensi 6). Rata-rata nilai ujian tersebut adalah ...",
+                pengantar: "Perhatikan tabel distribusi frekuensi nilai ujian matematika berikut:",
+                tabelHtml: `
+                    <table class="w-full max-w-md mx-auto text-xs sm:text-sm text-center border border-slate-300 my-3">
+                        <thead class="bg-violet-100">
+                            <tr><th class="border p-1.5">Interval Nilai</th><th class="border p-1.5">Frekuensi ($f_i$)</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td class="border p-1.5">41 – 50</td><td class="border p-1.5">4</td></tr>
+                            <tr><td class="border p-1.5">51 – 60</td><td class="border p-1.5">6</td></tr>
+                            <tr><td class="border p-1.5">61 – 70</td><td class="border p-1.5">10</td></tr>
+                            <tr><td class="border p-1.5">71 – 80</td><td class="border p-1.5">14</td></tr>
+                            <tr><td class="border p-1.5">81 – 90</td><td class="border p-1.5">6</td></tr>
+                        </tbody>
+                    </table>
+                `,
+                pertanyaan: "Rata-rata nilai ujian tersebut adalah ...",
                 opsi: ["66,5", "68,0", "69,5", "71,0"],
                 jawabanBenar: 2,
                 pembahasan: "Titik tengah ($x_i$): 45,5; 55,5; 65,5; 75,5; 85,5. Jumlah $f_i \\cdot x_i = (4\\times 45{,}5)+(6\\times 55{,}5)+(10\\times 65{,}5)+(14\\times 75{,}5)+(6\\times 85{,}5) = 182 + 333 + 655 + 1057 + 513 = 2.740$. Total frekuensi $n = 40$. Rata-rata $= 2.740 / 40 = 69{,}5$."
@@ -637,7 +649,22 @@
             {
                 id: 2,
                 kategori: "Modus Data Kelompok",
-                pertanyaan: "Modus dari data distribusi frekuensi: Kelas 30–34 (frekuensi 8), 35–39 (frekuensi 12), 40–44 (frekuensi 18), 45–49 (frekuensi 10), 50–54 (frekuensi 6) adalah ...",
+                pengantar: "Perhatikan data distribusi frekuensi berikut:",
+                tabelHtml: `
+                    <table class="w-full max-w-md mx-auto text-xs sm:text-sm text-center border border-slate-300 my-3">
+                        <thead class="bg-violet-100">
+                            <tr><th class="border p-1.5">Interval Nilai</th><th class="border p-1.5">Frekuensi ($f_i$)</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td class="border p-1.5">30 – 34</td><td class="border p-1.5">8</td></tr>
+                            <tr><td class="border p-1.5">35 – 39</td><td class="border p-1.5">12</td></tr>
+                            <tr><td class="border p-1.5">40 – 44</td><td class="border p-1.5">18</td></tr>
+                            <tr><td class="border p-1.5">45 – 49</td><td class="border p-1.5">10</td></tr>
+                            <tr><td class="border p-1.5">50 – 54</td><td class="border p-1.5">6</td></tr>
+                        </tbody>
+                    </table>
+                `,
+                pertanyaan: "Modus dari data tersebut adalah ...",
                 opsi: ["41,14", "41,64", "42,14", "42,50"],
                 jawabanBenar: 1,
                 pembahasan: "Kelas modus berada pada interval 40–44 (frekuensi tertinggi 18). $T_b = 39{,}5$, $p = 5$, $d_1 = 18 - 12 = 6$, $d_2 = 18 - 10 = 8$. $M_o = 39{,}5 + \\left(\\frac{6}{6+8}\\right) \\cdot 5 = 39{,}5 + \\frac{30}{14} = 39{,}5 + 2{,}14 = 41{,}64$."
@@ -645,7 +672,22 @@
             {
                 id: 3,
                 kategori: "Median Data Kelompok",
-                pertanyaan: "Dari tabel distribusi frekuensi: Kelas 20–24 ($f=3$), 25–29 ($f=6$), 30–34 ($f=10$), 35–39 ($f=8$), 40–44 ($f=3$). Nilai median dari data tersebut adalah ...",
+                pengantar: "Perhatikan tabel distribusi frekuensi berikut:",
+                tabelHtml: `
+                    <table class="w-full max-w-md mx-auto text-xs sm:text-sm text-center border border-slate-300 my-3">
+                        <thead class="bg-violet-100">
+                            <tr><th class="border p-1.5">Interval Nilai</th><th class="border p-1.5">Frekuensi ($f_i$)</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td class="border p-1.5">20 – 24</td><td class="border p-1.5">3</td></tr>
+                            <tr><td class="border p-1.5">25 – 29</td><td class="border p-1.5">6</td></tr>
+                            <tr><td class="border p-1.5">30 – 34</td><td class="border p-1.5">10</td></tr>
+                            <tr><td class="border p-1.5">35 – 39</td><td class="border p-1.5">8</td></tr>
+                            <tr><td class="border p-1.5">40 – 44</td><td class="border p-1.5">3</td></tr>
+                        </tbody>
+                    </table>
+                `,
+                pertanyaan: "Nilai median ($M_e$) dari data tersebut adalah ...",
                 opsi: ["31,5", "32,0", "32,5", "33,0"],
                 jawabanBenar: 2,
                 pembahasan: "Total frekuensi $n = 30$. Letak median $= \\frac{1}{2}(30) = 15$, berada pada kelas 30–34 ($fk_s = 3 + 6 = 9$, $f_m = 10$, $T_b = 29{,}5$, $p = 5$). $M_e = 29{,}5 + \\left(\\frac{15 - 9}{10}\\right) \\cdot 5 = 29{,}5 + \\frac{30}{10} = 29{,}5 + 3 = 32{,}5$."
@@ -653,6 +695,8 @@
             {
                 id: 4,
                 kategori: "Simpangan Rata-rata",
+                pengantar: "",
+                tabelHtml: "",
                 pertanyaan: "Diketahui data kelompok memiliki jumlah $\\sum f_i |x_i - \\bar{x}| = 84$ dan total frekuensi $\\sum f_i = 20$. Nilai simpangan rata-rata ($SR$) data tersebut adalah ...",
                 opsi: ["3,8", "4,0", "4,2", "4,5"],
                 jawabanBenar: 2,
@@ -661,6 +705,8 @@
             {
                 id: 5,
                 kategori: "Ragam & Simpangan Baku",
+                pengantar: "",
+                tabelHtml: "",
                 pertanyaan: "Suatu data kelompok memiliki $\\sum f_i (x_i - \\bar{x})^2 = 360$ dengan jumlah frekuensi $n = 40$. Simpangan baku ($S$) dari data tersebut adalah ...",
                 opsi: ["3", "6", "9", "12"],
                 jawabanBenar: 0,
@@ -691,7 +737,9 @@
                             <span class="font-bold text-violet-900">Soal Nomor ${idx + 1}</span>
                             <span class="text-xs font-semibold px-2.5 py-0.5 rounded bg-violet-100 text-violet-900 no-print">${soal.kategori}</span>
                         </div>
-                        <div class="mb-4 text-slate-800 leading-relaxed">${soal.pertanyaan}</div>
+                        ${soal.pengantar ? `<p class="text-sm text-slate-800 mb-1">${soal.pengantar}</p>` : ''}
+                        ${soal.tabelHtml}
+                        <div class="mb-4 text-slate-800 font-medium leading-relaxed">${soal.pertanyaan}</div>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                             ${opsiHTML}
                         </div>
